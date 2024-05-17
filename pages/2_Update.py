@@ -46,7 +46,8 @@ if st.button("Submit"):
         st.write("Updating multiple rows!")
     update_database(changes)
     st.session_state["applications"]["edited_rows"].clear()
-        
+    
+# Visual testing to track changes in the session_state
 st.write(st.session_state["applications"])
 
 # # Visualization
