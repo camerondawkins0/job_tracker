@@ -19,7 +19,7 @@ def init_db():
                 location TEXT,
                 salary INTEGER,
                 hourly BOOLEAN,
-                pay_frequency TEXT,
+                pay_freq TEXT,
                 application_date TEXT,
                 application_status TEXT CHECK(application_status IN ({", ".join(f"'{tag}'" for tag in TAGS)})) DEFAULT "Applied",
                 notes TEXT
@@ -35,5 +35,3 @@ def insert_application(company_name, job_title, location, salary, hourly, pay_fr
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         ''', (company_name, job_title, location, salary, hourly, pay_frequency, application_date, application_status, notes))
     conn.close()
-    
-    
