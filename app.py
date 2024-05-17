@@ -1,5 +1,6 @@
 import streamlit as st
 import random
+from database import init_db
 
 random.seed(42)
 # This is the main page and will display summary statistics of the user's job applications
@@ -12,6 +13,8 @@ random.seed(42)
 
 st.set_page_config(page_title="Home", page_icon=":moneybag:", layout="wide")
 st.write("Welcome to Your Personal Job Tracker!")
+
+init_db()
 
 def generate_keys(num_keys: int = 3):
     keys = [str(random.randint(1, 1000)) for i in range(num_keys)]
@@ -52,7 +55,6 @@ def navigation(keys: set = generate_keys(), left: tuple[str, str] = None,
         if st.button(right[0], key=keys[2]):
             st.switch_page(right[1])
     
-    keys.clear()
             
 navigation(left=("Apply", "pages/1_Apply.py"), middle=("Update", "pages/2_Update.py"), right=("Data", "pages/3_Data.py"))
 
