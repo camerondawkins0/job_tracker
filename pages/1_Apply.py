@@ -1,10 +1,9 @@
 import streamlit as st
-from app import navigation
+
+from navigation_funcs import nav_bar
 from database import insert_application
 from constants.tags import TAGS
 # Here is were all the pertinient information will be entered by the user to sumbit their application.
-
-st.set_page_config(page_title="Apply", page_icon=":clipboard:", layout="wide")
 
 with st.form("application_form", clear_on_submit=True):
     st.write("Please enter the following information to submit your job application.")
@@ -23,7 +22,8 @@ with st.form("application_form", clear_on_submit=True):
         insert_application(company_name, job_title, location, salary,
                             hourly, pay_frequency, date_applied, status, notes)
         st.write("Your application has been submitted!")
+        st.write(type(date_applied))
 
-navigation(left=("Home", "app.py"),
+nav_bar(left=("Home", "app.py"),
            middle=("Update", "pages/2_Update.py"),
            right=("Data", "pages/3_Data.py"))

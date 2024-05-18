@@ -1,5 +1,6 @@
 import sqlite3
-from constants.tags import TAGS
+import pandas as pd
+from constants.tags import APP_TAGS, COL_TAGS
 
 # important database functions will exist here for handling the data and accessing the database
 
@@ -19,13 +20,25 @@ def init_db():
                 location TEXT,
                 salary INTEGER,
                 hourly BOOLEAN,
-                pay_freq TEXT,
-                application_date TEXT,
-                application_status TEXT CHECK(application_status IN ({", ".join(f"'{tag}'" for tag in TAGS)})) DEFAULT "Applied",
+                pay_frequency TEXT,
+                application_date DATE NOT NULL,
+                application_status TEXT CHECK(application_status IN ({", ".join(f"'{tag}'" for tag in APP_TAGS)})) DEFAULT "Applied",
                 notes TEXT
             );
         ''')
     conn.close()
+
+def fetch_data(columns: list = None):
+    conn = get_db_connection()
+    with conn:
+        if columns is None:
+            query = "SELECT * FROM applications"
+        else:
+            query = f"SELECT {', '.join(columns)} FROM applications"
+        cursor = conn.execute(query)
+        data = cursor.fetchall()
+    conn.close()
+    return (data, COL_TAGS) if not columns else (data, columns)
 
 def insert_application(company_name, job_title, location, salary, hourly, pay_frequency, application_date, application_status, notes):
     conn = get_db_connection()
